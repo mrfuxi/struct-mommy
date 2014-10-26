@@ -5,7 +5,7 @@ import (
 
     "github.com/stretchr/testify/assert"
 
-    "github.com/fuxi/struct-mommy"
+    "github.com/mrfuxi/struct-mommy"
 )
 
 func TestPartiallyRandom(t *testing.T) {
