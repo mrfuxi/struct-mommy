@@ -22,7 +22,9 @@ func init() {
     random = rand.New(seed)
 }
 
-func Make(obj interface{}) {
+type PostFunc func(interface{}) error
+
+func Make(obj interface{}, post_funcs ...PostFunc) (err error) {
     obj_type := reflect.TypeOf(obj)
     kind := obj_type.Elem().Kind()
 
@@ -33,6 +35,16 @@ func Make(obj interface{}) {
         val := reflect.ValueOf(obj).Elem()
         make_simple(val)
     }
+
+    for _, post_func := range post_funcs {
+        err = post_func(obj)
+
+        if err != nil {
+            return
+        }
+    }
+
+    return
 }
 
 func random_string() string {
