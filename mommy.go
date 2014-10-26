@@ -1,3 +1,9 @@
+// Package struct_mommy implement object generator for test pourposes
+//
+// Call Make to fill in your struct with random data.
+// Use PostMake functions to define some of fields (Define), save struct to DB or whatever you please.
+//
+// ToDo: Let gererate multiple objects at once!
 package struct_mommy
 
 import (
@@ -14,7 +20,7 @@ var (
 )
 
 const (
-    RadomStringSize = 20
+    radomStringSize = 20
 )
 
 func init() {
@@ -22,9 +28,10 @@ func init() {
     random = rand.New(seed)
 }
 
-type PostFunc func(interface{}) error
-
-func Make(obj interface{}, post_funcs ...PostFunc) (err error) {
+// Make fills in given object with radom data.
+// Afterwords, if specified, PostMake functions are applied in order on the object.
+// If any function will return no nil error, no other function is execute and error is returned
+func Make(obj interface{}, post_funcs ...func(interface{}) error) (err error) {
     obj_type := reflect.TypeOf(obj)
     kind := obj_type.Elem().Kind()
 
@@ -48,8 +55,8 @@ func Make(obj interface{}, post_funcs ...PostFunc) (err error) {
 }
 
 func random_string() string {
-    b := bytes.NewBuffer(make([]byte, RadomStringSize))
-    for i := 0; i < RadomStringSize; i++ {
+    b := bytes.NewBuffer(make([]byte, radomStringSize))
+    for i := 0; i < radomStringSize; i++ {
         x := chars[random.Intn(len(chars))]
         b.WriteByte(x)
     }

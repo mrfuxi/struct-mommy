@@ -33,6 +33,6 @@ func TestPartiallyRandomBasicString(t *testing.T) {
 
     err := struct_mommy.Make(&obj, struct_mommy.Define("Blah", 123))
 
-    assert.Equal(t, "Define on string does not make sence", err.Error())
+    assert.Equal(t, "Define on string does not make sense. Only structs are accepted", err.Error())
     assert.NotEmpty(t, obj)
 }
