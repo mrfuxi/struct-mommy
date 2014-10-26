@@ -54,6 +54,12 @@ func Make(obj interface{}, post_funcs ...func(interface{}) error) (err error) {
     return
 }
 
+// SetSeed let you set/reset seed on rand object used to generate data
+func SetSeed(seed int64) {
+    seed_source := rand.NewSource(seed)
+    random = rand.New(seed_source)
+}
+
 func random_string() string {
     b := bytes.NewBuffer(make([]byte, radomStringSize))
     for i := 0; i < radomStringSize; i++ {

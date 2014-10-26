@@ -1,6 +1,7 @@
 package struct_mommy_test
 
 import (
+    "fmt"
     "testing"
 
     "github.com/stretchr/testify/assert"
@@ -42,6 +43,21 @@ type testAnonymousEmbeddedStructs struct {
 type testNamedEmbeddedStructs struct {
     FInt testSingleInt
     FStr testSingleString
+}
+
+func ExampleF_Make() {
+    obj := struct {
+        FieldA float32
+        FieldB uint8
+    }{}
+
+    struct_mommy.SetSeed(26)
+    struct_mommy.Make(&obj)
+
+    fmt.Printf("FieldA %.2e\nFieldB %d", obj.FieldA, obj.FieldB)
+    // Output:
+    // FieldA -1.54e+38
+    // FieldB 42
 }
 
 func TestStructWithSingleFieldBool(t *testing.T) {
