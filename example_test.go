@@ -1,4 +1,4 @@
-package struct_mommy_test
+package structmommy_test
 
 import (
     "fmt"
@@ -12,8 +12,8 @@ func ExampleMake() {
         FieldB uint8
     }{}
 
-    struct_mommy.SetSeed(26)
-    struct_mommy.Make(&obj)
+    structmommy.SetSeed(26)
+    structmommy.Make(&obj)
 
     fmt.Printf("FieldA %v\nFieldB %v", obj.FieldA, obj.FieldB)
     // Output:
@@ -27,8 +27,8 @@ func ExampleDefine() {
         FieldB uint8
     }{}
 
-    struct_mommy.SetSeed(26)
-    struct_mommy.Make(&obj, struct_mommy.Define("FieldA", 2.0))
+    structmommy.SetSeed(26)
+    structmommy.Make(&obj, structmommy.Define("FieldA", 2.0))
 
     fmt.Printf("FieldA %v\nFieldB %v", obj.FieldA, obj.FieldB)
     // Output:

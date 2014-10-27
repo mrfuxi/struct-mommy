@@ -1,4 +1,4 @@
-package struct_mommy_test
+package structmommy_test
 
 import (
     "testing"
@@ -11,7 +11,7 @@ import (
 func TestPartiallyRandom(t *testing.T) {
     obj := testMultipleSimpleFields{}
 
-    struct_mommy.Make(&obj, struct_mommy.Define("FieldFloat", 2.0))
+    structmommy.Make(&obj, structmommy.Define("FieldFloat", 2.0))
 
     assert.NotEmpty(t, obj.FieldInt)
     assert.NotEmpty(t, obj.FieldStr)
@@ -21,7 +21,7 @@ func TestPartiallyRandom(t *testing.T) {
 func TestPartiallyRandomTypeConversion(t *testing.T) {
     obj := testMultipleSimpleFields{}
 
-    struct_mommy.Make(&obj, struct_mommy.Define("FieldInt", 2.0, "FieldStr", "1"))
+    structmommy.Make(&obj, structmommy.Define("FieldInt", 2.0, "FieldStr", "1"))
 
     assert.Equal(t, obj.FieldInt, 2)
     assert.Equal(t, obj.FieldStr, "1")
@@ -29,9 +29,9 @@ func TestPartiallyRandomTypeConversion(t *testing.T) {
 }
 
 func TestPartiallyRandomBasicString(t *testing.T) {
-    var obj string = ""
+    var obj string
 
-    err := struct_mommy.Make(&obj, struct_mommy.Define("Blah", 123))
+    err := structmommy.Make(&obj, structmommy.Define("Blah", 123))
 
     assert.Equal(t, "Define on string does not make sense. Only structs are accepted", err.Error())
     assert.NotEmpty(t, obj)

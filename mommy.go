@@ -1,10 +1,10 @@
-// Package struct_mommy implement object generator for test pourposes
+// Package structmommy implement object generator for test purposes
 //
 // Call Make to fill in your struct with random data.
 // Use PostMake functions to define some of fields (Define), save struct to DB or whatever you please.
 //
-// ToDo: Let gererate multiple objects at once!
-package struct_mommy
+// ToDo: Let generate multiple objects at once!
+package structmommy
 
 import (
     "bytes"
@@ -31,20 +31,20 @@ func init() {
 // Make fills in given object with radom data.
 // Afterwords, if specified, PostMake functions are applied in order on the object.
 // If any function will return no nil error, no other function is execute and error is returned
-func Make(obj interface{}, post_funcs ...func(interface{}) error) (err error) {
-    obj_type := reflect.TypeOf(obj)
-    kind := obj_type.Elem().Kind()
+func Make(obj interface{}, postFuncs ...func(interface{}) error) (err error) {
+    objType := reflect.TypeOf(obj)
+    kind := objType.Elem().Kind()
 
     switch kind {
     case reflect.Struct:
-        make_struct(obj)
+        makeStruct(obj)
     default:
         val := reflect.ValueOf(obj).Elem()
-        make_simple(val)
+        makeSimple(val)
     }
 
-    for _, post_func := range post_funcs {
-        err = post_func(obj)
+    for _, postFunc := range postFuncs {
+        err = postFunc(obj)
 
         if err != nil {
             return
@@ -58,11 +58,11 @@ func Make(obj interface{}, post_funcs ...func(interface{}) error) (err error) {
 //
 // Using it is completely optional as on init seed is set to current timesstamp (UnixNano).
 func SetSeed(seed int64) {
-    seed_source := rand.NewSource(seed)
-    random = rand.New(seed_source)
+    seedSource := rand.NewSource(seed)
+    random = rand.New(seedSource)
 }
 
-func random_string() string {
+func randomString() string {
     b := bytes.NewBuffer(make([]byte, radomStringSize))
     for i := 0; i < radomStringSize; i++ {
         x := chars[random.Intn(len(chars))]
@@ -71,22 +71,22 @@ func random_string() string {
     return b.String()
 }
 
-func make_simple(val reflect.Value) {
+func makeSimple(val reflect.Value) {
     // Radom string from quick.Value is not readable
     if val.Kind() == reflect.String {
-        val.SetString(random_string())
+        val.SetString(randomString())
         return
     }
 
-    new_val, _ := quick.Value(val.Type(), random)
-    val.Set(new_val)
+    newVal, _ := quick.Value(val.Type(), random)
+    val.Set(newVal)
 }
 
-func make_struct(obj interface{}) {
+func makeStruct(obj interface{}) {
     s := reflect.ValueOf(obj).Elem()
 
     for i := 0; i < s.NumField(); i++ {
         field := s.Field(i)
-        make_simple(field)
+        makeSimple(field)
     }
 }

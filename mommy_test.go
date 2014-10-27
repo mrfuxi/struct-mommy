@@ -1,4 +1,4 @@
-package struct_mommy_test
+package structmommy_test
 
 import (
     "testing"
@@ -49,7 +49,7 @@ func TestStructWithSingleFieldBool(t *testing.T) {
 
     ok := false
     for i := 0; i <= 100; i++ {
-        struct_mommy.Make(&obj)
+        structmommy.Make(&obj)
         ok = obj.Field
 
         if ok {
@@ -61,7 +61,7 @@ func TestStructWithSingleFieldBool(t *testing.T) {
 
     ok = true
     for i := 0; i <= 100; i++ {
-        struct_mommy.Make(&obj)
+        structmommy.Make(&obj)
         ok = obj.Field
 
         if !ok {
@@ -74,127 +74,127 @@ func TestStructWithSingleFieldBool(t *testing.T) {
 
 func TestStructWithSingleFieldByte(t *testing.T) {
     obj := testSingleByte{}
-    struct_mommy.Make(&obj)
+    structmommy.Make(&obj)
     assert.NotEmpty(t, obj.Field)
 }
 
 func TestStructWithSingleFieldComplex64(t *testing.T) {
     obj := testSingleComplex64{}
-    struct_mommy.Make(&obj)
+    structmommy.Make(&obj)
     assert.NotEmpty(t, obj.Field)
 }
 
 func TestStructWithSingleFieldComplex128(t *testing.T) {
     obj := testSingleComplex128{}
-    struct_mommy.Make(&obj)
+    structmommy.Make(&obj)
     assert.NotEmpty(t, obj.Field)
 }
 
 func TestStructWithSingleFieldFloat32(t *testing.T) {
     obj := testSingleFloat32{}
-    struct_mommy.Make(&obj)
+    structmommy.Make(&obj)
     assert.NotEmpty(t, obj.Field)
 }
 
 func TestStructWithSingleFieldFloat64(t *testing.T) {
     obj := testSingleFloat64{}
-    struct_mommy.Make(&obj)
+    structmommy.Make(&obj)
     assert.NotEmpty(t, obj.Field)
 }
 
 func TestStructWithSingleFieldInt(t *testing.T) {
     obj := testSingleInt{}
-    struct_mommy.Make(&obj)
+    structmommy.Make(&obj)
     assert.NotEmpty(t, obj.Field)
 }
 
 func TestStructWithSingleFieldInt8(t *testing.T) {
     obj := testSingleInt8{}
-    struct_mommy.Make(&obj)
+    structmommy.Make(&obj)
     assert.NotEmpty(t, obj.Field)
 }
 
 func TestStructWithSingleFieldInt16(t *testing.T) {
     obj := testSingleInt16{}
-    struct_mommy.Make(&obj)
+    structmommy.Make(&obj)
     assert.NotEmpty(t, obj.Field)
 }
 
 func TestStructWithSingleFieldInt32(t *testing.T) {
     obj := testSingleInt32{}
-    struct_mommy.Make(&obj)
+    structmommy.Make(&obj)
     assert.NotEmpty(t, obj.Field)
 }
 
 func TestStructWithSingleFieldInt64(t *testing.T) {
     obj := testSingleInt64{}
-    struct_mommy.Make(&obj)
+    structmommy.Make(&obj)
     assert.NotEmpty(t, obj.Field)
 }
 
 func TestStructWithSingleFieldRune(t *testing.T) {
     obj := testSingleRune{}
-    struct_mommy.Make(&obj)
+    structmommy.Make(&obj)
     assert.NotEmpty(t, obj.Field)
 }
 
 func TestStructWithSingleFieldString(t *testing.T) {
     obj := testSingleString{}
-    struct_mommy.Make(&obj)
+    structmommy.Make(&obj)
     assert.NotEmpty(t, obj.Field)
 }
 
 func TestStructWithSingleFieldUint(t *testing.T) {
     obj := testSingleUint{}
-    struct_mommy.Make(&obj)
+    structmommy.Make(&obj)
     assert.NotEmpty(t, obj.Field)
 }
 
 func TestStructWithSingleFieldUint8(t *testing.T) {
     obj := testSingleUint8{}
-    struct_mommy.Make(&obj)
+    structmommy.Make(&obj)
     assert.NotEmpty(t, obj.Field)
 }
 
 func TestStructWithSingleFieldUint16(t *testing.T) {
     obj := testSingleUint16{}
-    struct_mommy.Make(&obj)
+    structmommy.Make(&obj)
     assert.NotEmpty(t, obj.Field)
 }
 
 func TestStructWithSingleFieldUint32(t *testing.T) {
     obj := testSingleUint32{}
-    struct_mommy.Make(&obj)
+    structmommy.Make(&obj)
     assert.NotEmpty(t, obj.Field)
 }
 
 func TestStructWithSingleFieldUint64(t *testing.T) {
     obj := testSingleUint64{}
-    struct_mommy.Make(&obj)
+    structmommy.Make(&obj)
     assert.NotEmpty(t, obj.Field)
 }
 
 func TestStructWithSingleFieldUintptr(t *testing.T) {
     obj := testSingleUintptr{}
-    struct_mommy.Make(&obj)
+    structmommy.Make(&obj)
     assert.NotEmpty(t, obj.Field)
 }
 
 func TestSimpleInt(t *testing.T) {
-    var obj uint8 = 0
-    struct_mommy.Make(&obj)
+    var obj uint8
+    structmommy.Make(&obj)
     assert.NotEmpty(t, obj)
 }
 
 func TestSimpleStr(t *testing.T) {
-    var obj string = ""
-    struct_mommy.Make(&obj)
+    var obj string
+    structmommy.Make(&obj)
     assert.NotEmpty(t, obj)
 }
 
 func TestMultipleSimpleFields(t *testing.T) {
     obj := testMultipleSimpleFields{}
-    struct_mommy.Make(&obj)
+    structmommy.Make(&obj)
     assert.NotEmpty(t, obj.FieldInt)
     assert.NotEmpty(t, obj.FieldStr)
     assert.NotEmpty(t, obj.FieldFloat)
@@ -202,14 +202,14 @@ func TestMultipleSimpleFields(t *testing.T) {
 
 func TestAnonymousEmbeddedStructs(t *testing.T) {
     obj := testAnonymousEmbeddedStructs{}
-    struct_mommy.Make(&obj)
+    structmommy.Make(&obj)
     assert.NotEmpty(t, obj.testSingleInt.Field)
     assert.NotEmpty(t, obj.testSingleString.Field)
 }
 
 func TestNamedEmbeddedStructs(t *testing.T) {
     obj := testNamedEmbeddedStructs{}
-    struct_mommy.Make(&obj)
+    structmommy.Make(&obj)
     assert.NotEmpty(t, obj.FInt.Field)
     assert.NotEmpty(t, obj.FStr.Field)
 }

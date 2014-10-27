@@ -1,4 +1,4 @@
-package struct_mommy
+package structmommy
 
 import (
     "errors"
@@ -7,50 +7,50 @@ import (
     "reflect"
 )
 
-// Post Make function that lets define values of struct fields
-func Define(key_value ...interface{}) func(interface{}) error {
-    defined := variadicToMap(key_value...)
+// Define is post Make function. Lets define values of struct fields
+func Define(keyValue ...interface{}) func(interface{}) error {
+    defined := variadicToMap(keyValue...)
 
-    post_func := func(obj interface{}) (err error) {
-        reflected_val := reflect.ValueOf(obj).Elem()
-        if reflected_val.Kind() != reflect.Struct {
+    postFunc := func(obj interface{}) (err error) {
+        reflectedVal := reflect.ValueOf(obj).Elem()
+        if reflectedVal.Kind() != reflect.Struct {
             msg := fmt.Sprintf(
                 "Define on %s does not make sense. Only structs are accepted",
-                reflected_val.Kind(),
+                reflectedVal.Kind(),
             )
             return errors.New(msg)
         }
 
         for key, value := range defined {
-            f := reflected_val.FieldByName(key)
-            new_val := reflect.ValueOf(value)
+            f := reflectedVal.FieldByName(key)
+            newVal := reflect.ValueOf(value)
 
-            if new_val.Type() != f.Type() {
-                if new_val.Type().ConvertibleTo(f.Type()) {
-                    new_val = new_val.Convert(f.Type())
+            if newVal.Type() != f.Type() {
+                if newVal.Type().ConvertibleTo(f.Type()) {
+                    newVal = newVal.Convert(f.Type())
                 } else {
-                    log.Printf("Type problem: %v vs %v. Skip", new_val.Type(), f.Type())
+                    log.Printf("Type problem: %v vs %v. Skip", newVal.Type(), f.Type())
                     continue
                 }
             }
-            f.Set(new_val)
+            f.Set(newVal)
         }
 
         return
     }
 
-    return post_func
+    return postFunc
 }
 
-func variadicToMap(key_value ...interface{}) map[string]interface{} {
-    if len(key_value)%2 != 0 {
-        panic(errors.New("Number of keys does not match number of values"))
+func variadicToMap(keyValue ...interface{}) map[string]interface{} {
+    if len(keyValue)%2 != 0 {
+        panic(errors.New("number of keys does not match number of values"))
     }
 
     defined := map[string]interface{}{}
 
     var key string
-    for i, kv := range key_value {
+    for i, kv := range keyValue {
         if i%2 == 0 {
             key = kv.(string)
         } else {
