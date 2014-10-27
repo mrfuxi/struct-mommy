@@ -54,7 +54,9 @@ func Make(obj interface{}, post_funcs ...func(interface{}) error) (err error) {
     return
 }
 
-// SetSeed let you set/reset seed on rand object used to generate data
+// SetSeed let you set/reset seed on rand object used to generate data.
+//
+// Using it is completely optional as on init seed is set to current timesstamp (UnixNano).
 func SetSeed(seed int64) {
     seed_source := rand.NewSource(seed)
     random = rand.New(seed_source)
