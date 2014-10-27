@@ -6,13 +6,11 @@ import (
     "github.com/mrfuxi/struct-mommy"
 )
 
-type MyStruct struct {
-    FieldA float32
-    FieldB uint8
-}
-
 func ExampleMake() {
-    obj := MyStruct{}
+    obj := struct {
+        FieldA float32
+        FieldB uint8
+    }{}
 
     struct_mommy.SetSeed(26)
     struct_mommy.Make(&obj)
@@ -24,7 +22,10 @@ func ExampleMake() {
 }
 
 func ExampleDefine() {
-    obj := MyStruct{}
+    obj := struct {
+        FieldA float32
+        FieldB uint8
+    }{}
 
     struct_mommy.SetSeed(26)
     struct_mommy.Make(&obj, struct_mommy.Define("FieldA", 2.0))
