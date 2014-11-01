@@ -15,10 +15,11 @@ func ExampleMake() {
     structmommy.SetSeed(26)
     structmommy.Make(&obj)
 
-    fmt.Printf("FieldA %v\nFieldB %v", obj.FieldA, obj.FieldB)
+    fmt.Println("FieldA:", obj.FieldA)
+    fmt.Println("FieldB:", obj.FieldB)
     // Output:
-    // FieldA -1.5426473e+38
-    // FieldB 42
+    // FieldA: -1.5426473e+38
+    // FieldB: 42
 }
 
 func ExampleDefine() {
@@ -30,8 +31,57 @@ func ExampleDefine() {
     structmommy.SetSeed(26)
     structmommy.Make(&obj, structmommy.Define("FieldA", 2.0))
 
-    fmt.Printf("FieldA %v\nFieldB %v", obj.FieldA, obj.FieldB)
+    fmt.Println("FieldA:", obj.FieldA)
+    fmt.Println("FieldB:", obj.FieldB)
     // Output:
-    // FieldA 2
-    // FieldB 42
+    // FieldA: 2
+    // FieldB: 42
+}
+
+func ExamplePartialEqual_ok() {
+    obj := struct {
+        FieldA float32
+        FieldB uint8
+    }{
+        FieldA: 1.2,
+        FieldB: 42,
+    }
+
+    err := structmommy.PartialEqual(obj, "FieldA", 1.2, "FieldB", 42)
+    if err != nil {
+        fmt.Println("Error:", err)
+    } else {
+        fmt.Println("All fields as expected!")
+    }
+
+    fmt.Println("FieldA:", obj.FieldA)
+    fmt.Println("FieldB:", obj.FieldB)
+    // Output:
+    // All fields as expected!
+    // FieldA: 1.2
+    // FieldB: 42
+}
+
+func ExamplePartialEqual_notEqual() {
+    obj := struct {
+        FieldA float32
+        FieldB uint8
+    }{
+        FieldA: 1.2,
+        FieldB: 42,
+    }
+
+    err := structmommy.PartialEqual(obj, "FieldA", 123)
+    if err != nil {
+        fmt.Println("Error:", err)
+    } else {
+        fmt.Println("All fields as expected!")
+    }
+
+    fmt.Println("FieldA:", obj.FieldA)
+    fmt.Println("FieldB:", obj.FieldB)
+    // Output:
+    // Error: value of field 'FieldA' equals 1.2, expected 123
+    // FieldA: 1.2
+    // FieldB: 42
 }

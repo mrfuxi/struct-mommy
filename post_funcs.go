@@ -7,30 +7,33 @@ import (
     "strings"
 )
 
+// Definition of function that can be applied specific field
+type fieldActionFunc (func(field, value reflect.Value, field_name string) error)
+
 // Define is post Make function. Lets define values of struct fields
 func Define(keyValue ...interface{}) func(interface{}) error {
     defined := variadicToMap(keyValue...)
 
     postFunc := func(obj interface{}) (err error) {
         reflectedVal := reflect.ValueOf(obj).Elem()
-        return applyDefinedMap(reflectedVal, defined)
+        return applyDefinedMap(reflectedVal, defined, setNewValue)
     }
 
     return postFunc
 }
 
-func applyDefinedMap(reflectedVal reflect.Value, defined map[string]interface{}) (err error) {
+func applyDefinedMap(reflectedVal reflect.Value, defined map[string]interface{}, actionFunc fieldActionFunc) (err error) {
     for key, value := range defined {
-        err = applyDefinedField(reflectedVal, key, value)
+        err = applyDefinedField(reflectedVal, key, value, actionFunc)
         if err != nil {
-            continue
+            break
         }
     }
 
     return
 }
 
-func applyDefinedField(reflectedVal reflect.Value, fieldName string, value interface{}) (err error) {
+func applyDefinedField(reflectedVal reflect.Value, fieldName string, value interface{}, actionFunc fieldActionFunc) (err error) {
     var field reflect.Value
 
     //If field has dots, try to go though struct
@@ -43,7 +46,7 @@ func applyDefinedField(reflectedVal reflect.Value, fieldName string, value inter
             return
         }
 
-        return applyDefinedField(field, furtherFields, value)
+        return applyDefinedField(field, furtherFields, value, actionFunc)
     }
 
     if err = hasFields(reflectedVal); err != nil {
@@ -68,9 +71,16 @@ func applyDefinedField(reflectedVal reflect.Value, fieldName string, value inter
             return
         }
     }
-    field.Set(newVal)
+
+    err = actionFunc(field, newVal, fieldName)
 
     return
+}
+
+func setNewValue(field, value reflect.Value, fieldName string) error {
+    field.Set(value)
+
+    return nil
 }
 
 func fieldByName(reflectedVal reflect.Value, fieldName string) (field reflect.Value, err error) {
